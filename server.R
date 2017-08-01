@@ -14,7 +14,6 @@ library(tidyverse)
 library(assertthat)
 library(MCMCpack)
 library(plot3D)
-library(gridExtra)
 library(ggtern)
 
 
@@ -240,7 +239,7 @@ trim_walker_pair <- function(A, ps0, ps1, ps2, thres = 0.3, all_three = TRUE) {
 
 ###  Plot functions
 plot_3d_trimmng <- function(data, trim_fun,
-                            show_trimmed = 0.1, all_three = TRUE, plot_pi = FALSE) {
+                            show_trimmed = 0.1, all_three = TRUE, plot_pi = FALSE, facet = FALSE) {
 
     if (plot_pi) {
         ## Add preference scores if plotting them.
@@ -287,6 +286,26 @@ plot_3d_trimmng <- function(data, trim_fun,
 
     }
 
+    ## Clean up
+    ggtern_plot <- ggtern_plot +
+        scale_L_continuous(limits = c(0,1),
+                           breaks = seq(from = 0.1, to = 0.9, by = 0.1),
+                           labels = rep("", 9)) +
+        scale_T_continuous(limits = c(0,1),
+                           breaks = seq(from = 0.1, to = 0.9, by = 0.1),
+                           labels = rep("", 9)) +
+        scale_R_continuous(limits = c(0,1),
+                           breaks = seq(from = 0.1, to = 0.9, by = 0.1),
+                           labels = rep("", 9)) +
+        scale_color_discrete(guide = FALSE) +
+        labs(x = "1", y = "0", z = "2")
+
+    ## Facet if asked
+    if (facet) {
+        ggtern_plot <- ggtern_plot +
+            facet_grid(A ~ .)
+    }
+
     ## Return the plot object
     return(ggtern_plot)
 }
@@ -299,52 +318,53 @@ plot_3d_together <- function(data, show_trimmed = 0.1,
                              thres_sturmer_pair = 0.05,
                              thres_walker_pair = 0.3,
                              all_three = TRUE,
-                             plot_pi = FALSE) {
+                             plot_pi = FALSE,
+                             facet = FALSE) {
 
     ## Multinomial
     p_crump_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_multi, thres = thres_crump_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
         labs(title = "Multinomial Crump")
     p_sturmer_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_multi, thres = thres_sturmer_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
         labs(title = "Multinomial Sturmer")
     p_walker_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_multi, thres = thres_walker_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
         labs(title = "Multinomial Walker")
 
     ## ## Pairwise version
     ## p_crump_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
     ##     labs(title = "Pairwise Crump")
     ## p_sturmer_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
     ##     labs(title = "Pairwise Sturmer")
     ## p_walker_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
     ##     labs(title = "Pairwise Walker")
 
 
     ## Graph together
     ## https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
-    grid.arrange(p_crump_multi,
-                 p_sturmer_multi,
-                 p_walker_multi,
-                 ## p_crump_pair,
-                 ## p_sturmer_pair,
-                 ## p_walker_pair,
-                 ncol = 3)
+    ggtern::grid.arrange(p_crump_multi,
+                         p_sturmer_multi,
+                         p_walker_multi,
+                         ## p_crump_pair,
+                         ## p_sturmer_pair,
+                         ## p_walker_pair,
+                         ncol = 3)
 }
 
 
@@ -376,7 +396,8 @@ shinyServer(function(input, output) {
                          thres_sturmer_pair  = input$thres_sturmer_pair,
                          thres_walker_pair   = input$thres_walker_pair,
                          all_three           = input$all_three,
-                         plot_pi             = input$plot_pi)
+                         plot_pi             = input$plot_pi,
+                         facet               = input$facet)
 
         ## Add title including prevalence.
         total_alpha <- input$alpha0 + input$alpha1 + input$alpha2

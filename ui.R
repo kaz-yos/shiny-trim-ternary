@@ -74,6 +74,14 @@ shinyUI(fluidPage(
                         max = 1,
                         value = 0.1),
 
+            ## What to plot
+            tags$div(class = "header", checked = NA,
+                     tags$h5("By group")),
+            selectInput("facet",
+                        NULL,
+                        choices = c("No" = FALSE,
+                                    "Yes" = TRUE)),
+
             ## Trimming control
             tags$div(class = "header", checked = NA,
                      tags$h5("Trimming thresholds")),
