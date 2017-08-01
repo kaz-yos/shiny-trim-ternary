@@ -239,7 +239,8 @@ trim_walker_pair <- function(A, ps0, ps1, ps2, thres = 0.3, all_three = TRUE) {
 
 ###  Plot functions
 plot_3d_trimmng <- function(data, trim_fun,
-                            show_trimmed = 0.1, all_three = TRUE, plot_pi = FALSE, facet = FALSE) {
+                            show_trimmed = 0.1, all_three = TRUE, plot_pi = FALSE,
+                            facet = FALSE, title) {
 
     if (plot_pi) {
         ## Add preference scores if plotting them.
@@ -259,6 +260,14 @@ plot_3d_trimmng <- function(data, trim_fun,
 
     ## Proportion remaining
     p_kept <- mean(data$keep)
+    p_kept_by_group <- tapply(data$keep, data$A, mean)
+
+    ## Create a title with proportions kept
+    title <- paste0(title, sprintf(" %.2f (%.2f/%.2f/%.2f)",
+                                   p_kept,
+                                   p_kept_by_group[1],
+                                   p_kept_by_group[2],
+                                   p_kept_by_group[3]))
 
     ## Plot either preference score or PS
     if (plot_pi) {
@@ -306,6 +315,9 @@ plot_3d_trimmng <- function(data, trim_fun,
             facet_grid(A ~ .)
     }
 
+    ## Add title
+    ggtern_plot <- ggtern_plot + labs(title = title)
+
     ## Return the plot object
     return(ggtern_plot)
 }
@@ -325,35 +337,29 @@ plot_3d_together <- function(data, show_trimmed = 0.1,
     p_crump_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_multi, thres = thres_crump_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-        labs(title = "Multinomial Crump")
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Multinomial Crump")
     p_sturmer_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_multi, thres = thres_sturmer_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-        labs(title = "Multinomial Sturmer")
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Multinomial Sturmer")
     p_walker_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_multi, thres = thres_walker_multi),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-        labs(title = "Multinomial Walker")
+                        show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Multinomial Walker")
 
     ## ## Pairwise version
     ## p_crump_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-    ##     labs(title = "Pairwise Crump")
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Pairwise Crump")
     ## p_sturmer_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-    ##     labs(title = "Pairwise Sturmer")
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Pairwise Sturmer")
     ## p_walker_pair <-
     ##     plot_3d_trimmng(data = data,
     ##                     trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
-    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet) +
-    ##     labs(title = "Pairwise Walker")
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi, facet = facet, title = "Pairwise Walker")
 
 
     ## Graph together
@@ -400,12 +406,14 @@ shinyServer(function(input, output) {
                          facet               = input$facet)
 
         ## Add title including prevalence.
-        total_alpha <- input$alpha0 + input$alpha1 + input$alpha2
-        overall_title <- sprintf("Prevalence: %.2f:%.2f:%.2f",
-                                 input$alpha0 / total_alpha,
-                                 input$alpha1 / total_alpha,
-                                 input$alpha2 / total_alpha)
-        title(main = overall_title, outer = TRUE, line = -1)
+        if (input$facet == FALSE) {
+            total_alpha <- input$alpha0 + input$alpha1 + input$alpha2
+            overall_title <- sprintf("Prevalence: %.2f:%.2f:%.2f",
+                                     input$alpha0 / total_alpha,
+                                     input$alpha1 / total_alpha,
+                                     input$alpha2 / total_alpha)
+            title(main = overall_title, outer = TRUE, line = -1)
+        }
 
     })
 
