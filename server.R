@@ -288,6 +288,10 @@ plot_3d_trimmng <- function(data, trim_fun,
         ## Add those who are trimmed if any exists and asked for.
         if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
 
+            ggtern_plot <- ggtern_plot +
+                geom_point(data = filter(data, keep == 0),
+                           alpha = show_trimmed)
+
             ## with(filter(data, keep == 0),
             ##      scatter3D(x = pi1,
             ##                y = pi2,
@@ -328,6 +332,9 @@ plot_3d_trimmng <- function(data, trim_fun,
         ## Add those who are trimmed if any exists and asked for.
         if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
 
+            ggtern_plot <- ggtern_plot +
+                geom_point(data = filter(data, keep == 0),
+                           alpha = show_trimmed)
             ## with(filter(data, keep == 0),
             ##      scatter3D(x = ps1,
             ##                y = ps2,
