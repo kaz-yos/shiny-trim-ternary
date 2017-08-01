@@ -240,7 +240,6 @@ trim_walker_pair <- function(A, ps0, ps1, ps2, thres = 0.3, all_three = TRUE) {
 
 ###  Plot functions
 plot_3d_trimmng <- function(data, trim_fun,
-                            phi = 40, theta = 90,
                             show_trimmed = 0.1, all_three = TRUE, plot_pi = FALSE) {
 
     if (plot_pi) {
@@ -292,7 +291,7 @@ plot_3d_trimmng <- function(data, trim_fun,
     return(ggtern_plot)
 }
 ## Plot 6-panels
-plot_3d_together <- function(data, phi = 40, theta = 90, show_trimmed = 0.1,
+plot_3d_together <- function(data, show_trimmed = 0.1,
                              thres_crump_multi = 0.07,
                              thres_sturmer_multi = 0.03,
                              thres_walker_multi = 0.2,
@@ -306,34 +305,34 @@ plot_3d_together <- function(data, phi = 40, theta = 90, show_trimmed = 0.1,
     p_crump_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_multi, thres = thres_crump_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Multinomial Crump")
     p_sturmer_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_multi, thres = thres_sturmer_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Multinomial Sturmer")
     p_walker_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_multi, thres = thres_walker_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Multinomial Walker")
 
     ## Pairwise version
     p_crump_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Pairwise Crump")
     p_sturmer_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Pairwise Sturmer")
     p_walker_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Pairwise Walker")
 
 
@@ -369,8 +368,6 @@ shinyServer(function(input, output) {
 
         ## Plot using the reactive dataset.
         plot_3d_together(data                = reactive_data_fun(),
-                         phi                 = input$phi,
-                         theta               = input$theta,
                          show_trimmed        = input$show_trimmed,
                          thres_crump_multi   = input$thres_crump_multi,
                          thres_sturmer_multi = input$thres_sturmer_multi,
@@ -387,7 +384,7 @@ shinyServer(function(input, output) {
                                  input$alpha0 / total_alpha,
                                  input$alpha1 / total_alpha,
                                  input$alpha2 / total_alpha)
-        title(main = overall_title, outer = TRUE, line = -0.5)
+        title(main = overall_title, outer = TRUE, line = -1)
 
     })
 

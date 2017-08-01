@@ -74,20 +74,6 @@ shinyUI(fluidPage(
                         max = 1,
                         value = 0.1),
 
-            ## 3D view
-            tags$div(class = "header", checked = NA,
-                     tags$h5("3D view angles (V, H)")),
-            sliderInput("phi",
-                        NULL,
-                        min = 0,
-                        max = 360,
-                        value = 15),
-            sliderInput("theta",
-                        NULL,
-                        min = 0,
-                        max = 360,
-                        value = 120),
-
             ## Trimming control
             tags$div(class = "header", checked = NA,
                      tags$h5("Trimming thresholds")),
