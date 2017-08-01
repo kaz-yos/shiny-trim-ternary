@@ -14,6 +14,8 @@ library(tidyverse)
 library(assertthat)
 library(MCMCpack)
 library(plot3D)
+library(gridExtra)
+library(ggtern)
 
 
 ###
@@ -260,130 +262,145 @@ plot_3d_trimmng <- function(data, trim_fun,
     ## Proportion remaining
     p_kept <- mean(data$keep)
 
-    ## Add an empty plot.
-    scatter3D(x = -500,
-              y = -500,
-              z = -500,
-              colkey = FALSE,
-              xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-              alpha = 0,
-              phi = phi, theta = theta)
-
     ## Plot either preference score or PS
     if (plot_pi) {
         ## Add those who are retained if any.
         if (nrow(filter(data, keep == 1)) > 0) {
-            with(filter(data, keep == 1),
-                 scatter3D(x = pi1,
-                           y = pi2,
-                           z = pi0,
-                           pch = as.numeric(A) + 1,
-                           colvar = as.numeric(A) + 1,
-                           col = c("#56B4E9","#D55E00","#000000"),
-                           alpha = 1,
-                           colkey = FALSE,
-                           xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-                           add = TRUE))
+
+            ggtern_plot <- ggtern(filter(data, keep == 1),
+                                  mapping = aes(x = pi1, y = pi0, z = pi2,
+                                                color = factor(A))) +
+                geom_point()
+
+            ## with(filter(data, keep == 1),
+            ##      scatter3D(x = pi1,
+            ##                y = pi2,
+            ##                z = pi0,
+            ##                pch = as.numeric(A) + 1,
+            ##                colvar = as.numeric(A) + 1,
+            ##                col = c("#56B4E9","#D55E00","#000000"),
+            ##                alpha = 1,
+            ##                colkey = FALSE,
+            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
+            ##                add = TRUE))
+
         }
         ## Add those who are trimmed if any exists and asked for.
         if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
-            with(filter(data, keep == 0),
-                 scatter3D(x = pi1,
-                           y = pi2,
-                           z = pi0,
-                           pch = as.numeric(A) + 1,
-                           colvar = as.numeric(A) + 1,
-                           col = c("#56B4E9","#D55E00","#000000"),
-                           alpha = show_trimmed,
-                           colkey = FALSE,
-                           xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-                           add = TRUE))
+
+            ## with(filter(data, keep == 0),
+            ##      scatter3D(x = pi1,
+            ##                y = pi2,
+            ##                z = pi0,
+            ##                pch = as.numeric(A) + 1,
+            ##                colvar = as.numeric(A) + 1,
+            ##                col = c("#56B4E9","#D55E00","#000000"),
+            ##                alpha = show_trimmed,
+            ##                colkey = FALSE,
+            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
+            ##                add = TRUE))
+
         }
 
     } else {
         ## Add those who are retained if any.
         if (nrow(filter(data, keep == 1)) > 0) {
-            with(filter(data, keep == 1),
-                 scatter3D(x = ps1,
-                           y = ps2,
-                           z = ps0,
-                           pch = as.numeric(A) + 1,
-                           colvar = as.numeric(A) + 1,
-                           col = c("#56B4E9","#D55E00","#000000"),
-                           alpha = 1,
-                           colkey = FALSE,
-                           xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-                           add = TRUE))
+
+
+            ggtern_plot <- ggtern(filter(data, keep == 1),
+                                  mapping = aes(x = ps1, y = ps0, z = ps2,
+                                                color = factor(A))) +
+                geom_point()
+
+            ## with(filter(data, keep == 1),
+            ##      scatter3D(x = ps1,
+            ##                y = ps2,
+            ##                z = ps0,
+            ##                pch = as.numeric(A) + 1,
+            ##                colvar = as.numeric(A) + 1,
+            ##                col = c("#56B4E9","#D55E00","#000000"),
+            ##                alpha = 1,
+            ##                colkey = FALSE,
+            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
+            ##                add = TRUE))
+
         }
         ## Add those who are trimmed if any exists and asked for.
         if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
-            with(filter(data, keep == 0),
-                 scatter3D(x = ps1,
-                           y = ps2,
-                           z = ps0,
-                           pch = as.numeric(A) + 1,
-                           colvar = as.numeric(A) + 1,
-                           col = c("#56B4E9","#D55E00","#000000"),
-                           alpha = show_trimmed,
-                           colkey = FALSE,
-                           xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-                           add = TRUE))
+
+            ## with(filter(data, keep == 0),
+            ##      scatter3D(x = ps1,
+            ##                y = ps2,
+            ##                z = ps0,
+            ##                pch = as.numeric(A) + 1,
+            ##                colvar = as.numeric(A) + 1,
+            ##                col = c("#56B4E9","#D55E00","#000000"),
+            ##                alpha = show_trimmed,
+            ##                colkey = FALSE,
+            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
+            ##                add = TRUE))
+
         }
     }
 
-    ## Return proportion kept
-    return(p_kept)
+    ## Return the plot object
+    return(ggtern_plot)
 }
 ## Plot 6-panels
 plot_3d_together <- function(data, phi = 40, theta = 90, show_trimmed = 0.1,
-                             thres_crump_multi = 0.1,
-                             thres_sturmer_multi = 0.05,
-                             thres_walker_multi = 0.3,
+                             thres_crump_multi = 0.07,
+                             thres_sturmer_multi = 0.03,
+                             thres_walker_multi = 0.2,
                              thres_crump_pair = 0.1,
                              thres_sturmer_pair = 0.05,
                              thres_walker_pair = 0.3,
                              all_three = TRUE,
                              plot_pi = FALSE) {
 
-    ## Set up
-    par(mar = c(0, 0, 0, 0), oma = c(0.5, 0.5, 0.5, 0.5))
-    layout(matrix(1:6, nrow = 2, byrow = TRUE))
-
-
     ## Multinomial
     p_crump_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_multi, thres = thres_crump_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Multinomial Crump (thres %.2f; %.2f kept)", thres_crump_multi, p_crump_multi), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Multinomial Crump")
     p_sturmer_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_multi, thres = thres_sturmer_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Multinomial Sturmer (thres %.2f; %.2f kept)", thres_sturmer_multi, p_sturmer_multi), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Multinomial Sturmer")
     p_walker_multi <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_multi, thres = thres_walker_multi),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Multinomial Walker (thres %.2f; %.2f kept)", thres_walker_multi, p_walker_multi), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Multinomial Walker")
 
     ## Pairwise version
     p_crump_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Pairwise Crump (thres %.2f; %.2f kept)", thres_crump_pair, p_crump_pair), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Pairwise Crump")
     p_sturmer_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Pairwise Sturmer (thres %.2f; %.2f kept)", thres_sturmer_pair, p_sturmer_pair), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Pairwise Sturmer")
     p_walker_pair <-
         plot_3d_trimmng(data = data,
                         trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
-                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi)
-    title(main = sprintf("Pairwise Walker (thres %.2f; %.2f kept)", thres_walker_pair, p_walker_pair), line = -3)
+                        phi = phi, theta = theta, show_trimmed = show_trimmed, plot_pi = plot_pi) +
+        labs(title = "Pairwise Walker")
 
+
+    ## Graph together
+    ## https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
+    grid.arrange(p_crump_multi,
+                 p_sturmer_multi,
+                 p_walker_multi,
+                 p_crump_pair,
+                 p_sturmer_pair,
+                 p_walker_pair,
+                 ncol = 3)
 }
 
 
