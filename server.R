@@ -264,90 +264,28 @@ plot_3d_trimmng <- function(data, trim_fun,
 
     ## Plot either preference score or PS
     if (plot_pi) {
-        ## Add those who are retained if any.
-        if (nrow(filter(data, keep == 1)) > 0) {
 
-            ggtern_plot <- ggtern(filter(data, keep == 1),
-                                  mapping = aes(x = pi1, y = pi0, z = pi2,
-                                                color = factor(A))) +
-                geom_point()
-
-            ## with(filter(data, keep == 1),
-            ##      scatter3D(x = pi1,
-            ##                y = pi2,
-            ##                z = pi0,
-            ##                pch = as.numeric(A) + 1,
-            ##                colvar = as.numeric(A) + 1,
-            ##                col = c("#56B4E9","#D55E00","#000000"),
-            ##                alpha = 1,
-            ##                colkey = FALSE,
-            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-            ##                add = TRUE))
-
-        }
-        ## Add those who are trimmed if any exists and asked for.
-        if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
-
-            ggtern_plot <- ggtern_plot +
-                geom_point(data = filter(data, keep == 0),
-                           alpha = show_trimmed)
-
-            ## with(filter(data, keep == 0),
-            ##      scatter3D(x = pi1,
-            ##                y = pi2,
-            ##                z = pi0,
-            ##                pch = as.numeric(A) + 1,
-            ##                colvar = as.numeric(A) + 1,
-            ##                col = c("#56B4E9","#D55E00","#000000"),
-            ##                alpha = show_trimmed,
-            ##                colkey = FALSE,
-            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-            ##                add = TRUE))
-
-        }
+        ggtern_plot <- ggtern(filter(data, keep == 1),
+                              mapping = aes(x = pi1, y = pi0, z = pi2,
+                                            color = factor(A))) +
+            geom_point()
 
     } else {
-        ## Add those who are retained if any.
-        if (nrow(filter(data, keep == 1)) > 0) {
 
+        ggtern_plot <- ggtern(filter(data, keep == 1),
+                              mapping = aes(x = ps1, y = ps0, z = ps2,
+                                            color = factor(A))) +
+            geom_point()
 
-            ggtern_plot <- ggtern(filter(data, keep == 1),
-                                  mapping = aes(x = ps1, y = ps0, z = ps2,
-                                                color = factor(A))) +
-                geom_point()
+    }
 
-            ## with(filter(data, keep == 1),
-            ##      scatter3D(x = ps1,
-            ##                y = ps2,
-            ##                z = ps0,
-            ##                pch = as.numeric(A) + 1,
-            ##                colvar = as.numeric(A) + 1,
-            ##                col = c("#56B4E9","#D55E00","#000000"),
-            ##                alpha = 1,
-            ##                colkey = FALSE,
-            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-            ##                add = TRUE))
+    ## Add those who are trimmed if any exists and asked for.
+    if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
 
-        }
-        ## Add those who are trimmed if any exists and asked for.
-        if (nrow(filter(data, keep == 0)) > 0 & show_trimmed > 0) {
+        ggtern_plot <- ggtern_plot +
+            geom_point(data = filter(data, keep == 0),
+                       alpha = show_trimmed)
 
-            ggtern_plot <- ggtern_plot +
-                geom_point(data = filter(data, keep == 0),
-                           alpha = show_trimmed)
-            ## with(filter(data, keep == 0),
-            ##      scatter3D(x = ps1,
-            ##                y = ps2,
-            ##                z = ps0,
-            ##                pch = as.numeric(A) + 1,
-            ##                colvar = as.numeric(A) + 1,
-            ##                col = c("#56B4E9","#D55E00","#000000"),
-            ##                alpha = show_trimmed,
-            ##                colkey = FALSE,
-            ##                xlim = c(0, 1), ylim = c(0, 1), zlim = c(0, 1),
-            ##                add = TRUE))
-
-        }
     }
 
     ## Return the plot object
