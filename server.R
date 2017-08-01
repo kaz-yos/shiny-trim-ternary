@@ -318,22 +318,22 @@ plot_3d_together <- function(data, show_trimmed = 0.1,
                         show_trimmed = show_trimmed, plot_pi = plot_pi) +
         labs(title = "Multinomial Walker")
 
-    ## Pairwise version
-    p_crump_pair <-
-        plot_3d_trimmng(data = data,
-                        trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
-        labs(title = "Pairwise Crump")
-    p_sturmer_pair <-
-        plot_3d_trimmng(data = data,
-                        trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
-        labs(title = "Pairwise Sturmer")
-    p_walker_pair <-
-        plot_3d_trimmng(data = data,
-                        trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
-                        show_trimmed = show_trimmed, plot_pi = plot_pi) +
-        labs(title = "Pairwise Walker")
+    ## ## Pairwise version
+    ## p_crump_pair <-
+    ##     plot_3d_trimmng(data = data,
+    ##                     trim_fun = partial(trim_crump_pair, thres = thres_crump_pair, all_three = all_three),
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##     labs(title = "Pairwise Crump")
+    ## p_sturmer_pair <-
+    ##     plot_3d_trimmng(data = data,
+    ##                     trim_fun = partial(trim_sturmer_pair, thres = thres_sturmer_pair, all_three = all_three),
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##     labs(title = "Pairwise Sturmer")
+    ## p_walker_pair <-
+    ##     plot_3d_trimmng(data = data,
+    ##                     trim_fun = partial(trim_walker_pair, thres = thres_walker_pair, all_three = all_three),
+    ##                     show_trimmed = show_trimmed, plot_pi = plot_pi) +
+    ##     labs(title = "Pairwise Walker")
 
 
     ## Graph together
@@ -341,9 +341,9 @@ plot_3d_together <- function(data, show_trimmed = 0.1,
     grid.arrange(p_crump_multi,
                  p_sturmer_multi,
                  p_walker_multi,
-                 p_crump_pair,
-                 p_sturmer_pair,
-                 p_walker_pair,
+                 ## p_crump_pair,
+                 ## p_sturmer_pair,
+                 ## p_walker_pair,
                  ncol = 3)
 }
 
