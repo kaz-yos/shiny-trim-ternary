@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
     ## https://shiny.rstudio.com/tutorial/lesson6/
     reactive_data_fun <- reactive({
         generate_dirichlet_plot_data(n = input$n,
-                                     alpha = c(input$alpha0, input$alpha1, input$alpha2),
+                                     alpha = c(input$alpha0, input$alpha1, input$alpha2) * input$alpha_overall,
                                      add_margin = FALSE)
     })
 
