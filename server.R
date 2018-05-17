@@ -27,6 +27,15 @@ shinyServer(function(input, output) {
                                      add_margin = FALSE)
     })
 
+    output$prevalence <- renderText({
+
+        ## Show treatment prevalence
+        total_alpha <- input$alpha0 + input$alpha1 + input$alpha2
+        overall_title <- sprintf("Prevalence: %.2f:%.2f:%.2f",
+                                 input$alpha0 / total_alpha,
+                                 input$alpha1 / total_alpha,
+                                 input$alpha2 / total_alpha)
+    })
 
     ## Add plot object named "three_trim_plot" to the output.
     output$three_trim_plot <- renderPlot({
@@ -46,15 +55,16 @@ shinyServer(function(input, output) {
                          plot_density        = input$plot_density,
                          facet               = input$facet)
 
-        ## Add title including prevalence.
-        if (input$facet == FALSE) {
-            total_alpha <- input$alpha0 + input$alpha1 + input$alpha2
-            overall_title <- sprintf("Prevalence: %.2f:%.2f:%.2f",
-                                     input$alpha0 / total_alpha,
-                                     input$alpha1 / total_alpha,
-                                     input$alpha2 / total_alpha)
-            title(main = overall_title, outer = TRUE, line = -1)
-        }
+
+        ## ## Add title including prevalence.
+        ## if (input$facet == FALSE) {
+        ##     total_alpha <- input$alpha0 + input$alpha1 + input$alpha2
+        ##     overall_title <- sprintf("Prevalence: %.2f:%.2f:%.2f",
+        ##                              input$alpha0 / total_alpha,
+        ##                              input$alpha1 / total_alpha,
+        ##                              input$alpha2 / total_alpha)
+        ##     title(main = overall_title, outer = TRUE, line = -1)
+        ## }
 
     })
 
