@@ -67,14 +67,29 @@ shinyUI(fluidPage(
 
             ## Opacity
             tags$div(class = "header", checked = NA,
-                     tags$h5("Trim opacity")),
-            sliderInput("show_trimmed",
+                     tags$h5("Overall opacity")),
+            sliderInput("overall_opacity",
                         NULL,
                         min = 0,
                         max = 1,
-                        value = 0.1),
+                        value = 1),
+            tags$div(class = "header", checked = NA,
+                     tags$h5("Trimmed opacity")),
+            sliderInput("trimmed_opacity",
+                        NULL,
+                        min = 0,
+                        max = 1,
+                        value = 1),
 
             ## What to plot
+            tags$div(class = "header", checked = NA,
+                     tags$h5("Plot Density?")),
+            selectInput("plot_density",
+                        NULL,
+                        choices = c("No" = FALSE,
+                                    "Yes" = TRUE)),
+
+            ## Facetting
             tags$div(class = "header", checked = NA,
                      tags$h5("By group")),
             selectInput("facet",
@@ -99,30 +114,8 @@ shinyUI(fluidPage(
                         "Walker, multi",
                         min = 0,
                         max = 1,
-                        value = 0.2),
-            sliderInput("thres_crump_pair",
-                        "Crump, pair",
-                        min = 0,
-                        max = 1,
-                        value = 0.1),
-            sliderInput("thres_sturmer_pair",
-                        "Sturmer, pair",
-                        min = 0,
-                        max = 1,
-                        value = 0.05),
-            sliderInput("thres_walker_pair",
-                        "Walker, pair",
-                        min = 0,
-                        max = 1,
-                        value = 0.3),
+                        value = 0.2)
 
-            ## Pairwise trimming rule control
-            tags$div(class = "header", checked = NA,
-                     tags$h5("Pairwise rule")),
-            selectInput("all_three",
-                        NULL,
-                        choices = c("All three" = TRUE,
-                                    "Two at a time" = FALSE))
         ),
 
         ## Show a plot of the generated distribution
