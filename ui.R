@@ -89,7 +89,7 @@ shinyUI(fluidPage(
 
             ## What type of plot
             tags$div(class = "header", checked = NA,
-                     tags$h5("Plot Density?")),
+                     tags$h5("Plot density?")),
             selectInput("plot_density",
                         NULL,
                         choices = c("No" = FALSE,
@@ -97,7 +97,7 @@ shinyUI(fluidPage(
 
             ## Facetting
             tags$div(class = "header", checked = NA,
-                     tags$h5("By group")),
+                     tags$h5("By group?")),
             selectInput("facet",
                         NULL,
                         choices = c("No" = FALSE,
