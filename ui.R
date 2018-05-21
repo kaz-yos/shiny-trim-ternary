@@ -27,14 +27,6 @@ shinyUI(fluidPage(
             ## https://stackoverflow.com/questions/26782041/scaling-shiny-plots-to-window-height
             tags$head(tags$style("#three_trim_plot{height:90vh !important;}")),
 
-            ## What to plot
-            tags$div(class = "header", checked = NA,
-                     tags$h5("Which score?")),
-            selectInput("plot_pi",
-                        NULL,
-                        choices = c("Propensity" = FALSE,
-                                    "Preference" = TRUE)),
-
             ## Sample size
             tags$div(class = "header", checked = NA,
                      tags$h5("Sample size")),
@@ -87,7 +79,15 @@ shinyUI(fluidPage(
                                     max = 1,
                                     value = 1)),
 
-            ## What to plot
+            ## Which score to plot
+            tags$div(class = "header", checked = NA,
+                     tags$h5("Which score?")),
+            selectInput("plot_pi",
+                        NULL,
+                        choices = c("Propensity" = FALSE,
+                                    "Preference" = TRUE)),
+
+            ## What type of plot
             tags$div(class = "header", checked = NA,
                      tags$h5("Plot Density?")),
             selectInput("plot_density",
