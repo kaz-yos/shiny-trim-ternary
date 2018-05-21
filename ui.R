@@ -41,8 +41,8 @@ shinyUI(fluidPage(
             sliderInput("n",
                         NULL,
                         min = 1,
-                        max = 10000,
-                        value = 1000),
+                        max = 50000,
+                        value = 10000),
 
             ## Dirichlet(alpha)
             ## adding the new div tag to the sidebar

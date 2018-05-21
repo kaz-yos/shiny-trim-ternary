@@ -10,7 +10,7 @@
 ################################################################################
 library(shiny)
 
-source("../shiny_trim_empirical_ternary/server_functions.R")
+source("./server_functions.R")
 
 
 ###
