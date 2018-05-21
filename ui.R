@@ -129,7 +129,7 @@ shinyUI(fluidPage(
                               plotOutput(outputId = "three_trim_plot",
                                          width = "auto",
                                          height = "700px"),
-                              textOutput(outputId = "prevalence")
+                              h3(textOutput(outputId = "prevalence"))
         )
     )
 ))

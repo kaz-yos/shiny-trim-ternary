@@ -266,11 +266,13 @@ plot_3d_trimmng <- function(data, trim_fun, thres,
     ## Create a title with proportions kept
     if (show_title) {
 
-        title <- paste0(title, sprintf(" %.2f (%.2f/%.2f/%.2f)",
-                                       p_kept,
-                                       p_kept_by_group[1],
-                                       p_kept_by_group[2],
-                                       p_kept_by_group[3]))
+        title <- paste0(title,
+                        "\n",
+                        sprintf(" %.1f%% (%.1f; %.1f; %.1f)",
+                                100 * p_kept,
+                                100 * p_kept_by_group[1],
+                                100 * p_kept_by_group[2],
+                                100 * p_kept_by_group[3]))
     } else {
 
         title <- NULL
@@ -437,7 +439,10 @@ plot_3d_trimmng <- function(data, trim_fun, thres,
 
 
     ## Add title
-    ggtern_plot <- ggtern_plot + labs(title = title)
+    ggtern_plot <- ggtern_plot +
+        labs(title = title) +
+        theme(plot.title = element_text(hjust = 0.5, size = 24))
+
 
     ## Return the plot object
     return(ggtern_plot)
