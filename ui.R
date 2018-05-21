@@ -105,19 +105,19 @@ shinyUI(fluidPage(
 
             ## Trimming control
             tags$div(class = "header", checked = NA,
-                     tags$h5("Trimming thresholds")),
+                     tags$h5("Multinomial trimming thresholds")),
             sliderInput("thres_crump_multi",
-                        "Crump, multi",
+                        "Crump (PS scale)",
                         min = 0,
                         max = 0.3,
                         value = 0.07),
             sliderInput("thres_sturmer_multi",
-                        "Sturmer, multi",
+                        "Sturmer (Quantile scale)",
                         min = 0,
                         max = 0.3,
                         value = 0.03),
             sliderInput("thres_walker_multi",
-                        "Walker, multi",
+                        "Walker (Preference scale)",
                         min = 0,
                         max = 0.3,
                         value = 0.2)
