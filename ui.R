@@ -16,7 +16,8 @@ library(shiny)
 shinyUI(fluidPage(
 
     ## Application title (More space if not used).
-    titlePanel(title = NULL, windowTitle = "PS Trimming in Three Groups"),
+    titlePanel(title = "PS Trimming in Three Groups",
+               windowTitle = "PS Trimming in Three Groups"),
 
     ## Sidebar with a slider input for number of bins
     sidebarLayout(
@@ -47,7 +48,7 @@ shinyUI(fluidPage(
                         max = 20,
                         value = 2),
             tags$div(class = "header", checked = NA,
-                     tags$h5("Relative groups sizes")),
+                     tags$h5("Relative group sizes")),
             ## https://stackoverflow.com/questions/20637248/shiny-4-small-textinput-boxes-side-by-side
             splitLayout(numericInput("alpha0",
                                      NULL,
@@ -125,11 +126,14 @@ shinyUI(fluidPage(
         ),
 
         ## Show a plot of the generated distribution
-        mainPanel = mainPanel(width = 10,
-                              plotOutput(outputId = "three_trim_plot",
-                                         width = "auto",
-                                         height = "700px"),
-                              h3(textOutput(outputId = "prevalence"))
-        )
+        mainPanel(width = 10,
+                  tabsetPanel(tabPanel("Simulation",
+                                       plotOutput(outputId = "three_trim_plot",
+                                                  width = "auto",
+                                                  height = "700px"),
+                                       h3(textOutput(outputId = "prevalence"))),
+                              tabPanel("Help on controller",
+                                       includeMarkdown("help_controller.md")))
+                  )
     )
 ))
