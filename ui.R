@@ -16,7 +16,7 @@ library(shiny)
 shinyUI(fluidPage(
 
     ## Application title (More space if not used).
-    titlePanel(title = "PS Trimming in Three Groups",
+    titlePanel(title = NULL,
                windowTitle = "PS Trimming in Three Groups"),
 
     ## Sidebar with a slider input for number of bins
@@ -128,10 +128,10 @@ shinyUI(fluidPage(
         ## Show a plot of the generated distribution
         mainPanel(width = 10,
                   tabsetPanel(tabPanel("Simulation",
+                                       h3(textOutput(outputId = "prevalence")),
                                        plotOutput(outputId = "three_trim_plot",
                                                   width = "auto",
-                                                  height = "700px"),
-                                       h3(textOutput(outputId = "prevalence"))),
+                                                  height = "700px")),
                               ##
                               tabPanel("Help on controller",
                                        includeMarkdown("help_controller.md")),
