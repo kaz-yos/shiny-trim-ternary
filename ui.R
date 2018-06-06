@@ -132,8 +132,13 @@ shinyUI(fluidPage(
                                                   width = "auto",
                                                   height = "700px"),
                                        h3(textOutput(outputId = "prevalence"))),
+                              ##
                               tabPanel("Help on controller",
-                                       includeMarkdown("help_controller.md")))
+                                       includeMarkdown("help_controller.md")),
+                              ##
+                              tabPanel("Help on plot",
+                                       includeMarkdown("help_ternary.md"))
+                              )
                   )
     )
 ))
