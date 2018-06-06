@@ -8,6 +8,10 @@ The propensity score vector of three elements are simulated from the Dirichlet d
 
 ![Alt text](./source/webapp_ps_distribution.png)
 
+The following setting of *Concentration* *c* and *Relative group sizes* (alphas) gives approximation to the empirical data presented in the paper.
+
+![Alt text](./source/webapp_empirical_settings.png)
+
 
 **Plotting parameters**
 
