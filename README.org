@@ -1,0 +1,19 @@
+* Multinomial PS trimming Shiny app
+[[./source/webapp_overview.png]]
+
+
+* What this Shiny app is about
+This Shiny app describes our proposed definitions to extend three existing propensity score trimming methods (Crump et al. Biometrika 2009;96:187, Stürmer et al. Am J Epidemiol 2010;172:843, and Walker et al. Comp Eff Res 2013;3:11) into the multinomial exposure setting.
+
+
+* Related resources
+
+The web app is available at: https://kaz-yos.shinyapps.io/shiny_trim_ternary/.
+
+The corresponding poster presented at ICPE 2018 is at: [[https://github.com/kaz-yos/icpe-2018-org-mode-poster]].
+
+The corresponding manuscript is under editorial processing.
+
+
+* Author
+[[https://twitter.com/kaz_yos][Kazuki Yoshida]] <kazukiyoshida@mail.harvard.edu>
