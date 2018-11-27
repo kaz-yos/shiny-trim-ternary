@@ -10,7 +10,7 @@ The distribution of three-group PS $\boldsymbol{e}_{i} = (e_{0i},e_{1i},e_{2i})^
 
 *Sample size* determines the sample size of the entire cohort simulated.
 
-*Concentration* is $c$ and *Relative group sizes* are $\alpha_{0}, \alpha_{1}$, and \alpha_{2}$.  A smaller *Concentration* value gives a more separated distribution of the PS and treatment groups (poor PS overlap). A larger *Concentration* value gives a more concentrated distribution of the PS and treatment groups (good PS overlap).
+*Concentration* is $c$ and *Relative group sizes* are $\alpha_{0}, \alpha_{1}$, and $\alpha_{2}$.  A smaller *Concentration* value gives a more separated distribution of the PS and treatment groups (poor PS overlap). A larger *Concentration* value gives a more concentrated distribution of the PS and treatment groups (good PS overlap).
 
 ![Alt text](./source/webapp_ps_distribution.png)
 

@@ -134,10 +134,10 @@ shinyUI(fluidPage(
                                                   height = "700px")),
                               ##
                               tabPanel("Help on controller",
-                                       includeMarkdown("help_controller.md")),
+                                       withMathJax(includeMarkdown("help_controller.md"))),
                               ##
                               tabPanel("Help on plot",
-                                       includeMarkdown("help_ternary.md"))
+                                       withMathJax(includeMarkdown("help_ternary.md")))
                               )
                   )
     )
